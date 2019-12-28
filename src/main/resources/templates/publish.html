@@ -40,7 +40,6 @@
                 <li th:if="not  ${session.user!=null}">
                     <a href="https://github.com/login/oauth/authorize?client_id=8897d5437c00e01f2b5d&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -50,20 +49,30 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
-            <form action="#">
+            <form action="/publish" method="post">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）</label>
-                    <input type="text" class="form-control" id="title" placeholder="问题标题">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题" th:value="${title}">
                 </div>
                 <div class="form-group">
-                    <label for="title">问题补充（必填，参照提示）</label>
-                    <textarea  class="form-control" name="description" id="description" rows="3"></textarea>
+                    <label for="description">问题补充（必填，参照提示）</label>
+                    <textarea  class="form-control" name="description" id="description" rows="3" th:value="${description}"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="title">添加标签</label>
-                    <input type="text" class="form-control" id="title" placeholder="输入标签，以逗号隔开">
+                    <label for="tag">添加标签</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签，以逗号隔开">
                 </div>
-                <button type="submit" class="btn btn-success btn-publish">发布</button>
+
+                <div class="container-fluid main">
+
+                    <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error!=null}"></div>
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                        <button type="submit" class="btn btn-success btn-publish">
+                            发布
+                        </button>
+                    </div>
+                </div>
+
             </form>
         </div>
 
