@@ -5,10 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bbs.css">
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -49,13 +48,37 @@
             </ul>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="background-color: red"></div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="background-color: aqua"></div>
+</nav>
+
+<div class="container-fluid" main>
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <hr>
+
+            <div class="media" th:each="question : ${questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object avatar" th:src="${question.user.avatar_Url}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}">杭州电子科技大学</h4>
+                    <span th:text="${question.description}"></span> <br>
+                    <span class="text"><span th:text="${question.Comment_Count}"></span>个回复/ <span th:text="${question.View_Count}"></span>次浏览/ <span th:text="${#dates.format(question.getGmt_Create(),'dd MMMM yyyy')}"></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            *sdsddd <br>
+            *sddd <br>
+            *sddfsfff<br>
+            *rrrrr <br>
         </div>
     </div>
-</nav>
+</div>
 
 
 </body>
