@@ -5,6 +5,7 @@ import com.bbs.bigmud.bbs.Model.User;
 import com.bbs.bigmud.bbs.Service.QuestionService;
 import com.bbs.bigmud.bbs.UserMapper.QuestionMapper;
 import com.bbs.bigmud.bbs.UserMapper.UserMapper;
+import com.bbs.bigmud.bbs.dto.PageDTO;
 import com.bbs.bigmud.bbs.dto.QuestionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name="page",defaultValue = "1") Integer page,
+                        @RequestParam(name="size",defaultValue = "5") Integer size){
 
         Cookie[] cookies = request.getCookies();
         if(cookies != null) {
@@ -42,8 +45,8 @@ public class IndexController {
         }
 
         //查询 问题列表
-        List<QuestionDTO> questionList = questionService.list();
-        model.addAttribute("questions",questionList);
+        PageDTO pagination = questionService.list(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 }

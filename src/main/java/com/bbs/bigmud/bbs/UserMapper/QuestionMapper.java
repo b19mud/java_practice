@@ -4,6 +4,7 @@ package com.bbs.bigmud.bbs.UserMapper;
 import com.bbs.bigmud.bbs.Model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,8 +18,10 @@ public interface QuestionMapper {
     void createQuestion(Question question);
 
 
-    @Select("SELECT * FROM QUESTION")
-    List<Question> list();
+    @Select("SELECT * FROM QUESTION LIMIT #{offset},#{size}")
+    List<Question> list(@Param(value = "offset") Integer offset, @Param(value="size") Integer size);
 
+    @Select("SELECT COUNT(1) FROM QUESTION")
+    Integer count();
 
 }
