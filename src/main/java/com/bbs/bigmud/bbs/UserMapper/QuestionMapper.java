@@ -24,4 +24,6 @@ public interface QuestionMapper {
     @Select("SELECT COUNT(1) FROM QUESTION")
     Integer count();
 
+    @Select("SELECT * FROM QUESTION  WHERE CREATER = #{userId} LIMIT #{offset},#{size}")
+    List<Question> list(@Param("userId") Integer userId, @Param("offset") Integer offset,@Param(value = "size") Integer size);
 }

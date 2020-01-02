@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>java_practice_title</title>
+    <title th:text="${sectionName}">个人中心</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
@@ -14,13 +14,12 @@
 <div th:insert="navigation :: nav">
 </div>
 
-<div class="container-fluid main" >
+<div class="container-fluid main profile" >
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <h2> <span th:text="${sectionName}"></span></h2>
             <hr>
-
-            <div class="media" th:each="question : ${pagination.questions}">
+            <!--<div class="media" th:each="question : ${pagination.questions}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object avatar" th:src="${question.user.avatar_Url}">
@@ -62,14 +61,16 @@
                     </li>
 
                 </ul>
-            </nav>
+            </nav>-->
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>问题发起指南</h3>
-            *sdsddd <br>
-            *sddd <br>
-            *sddfsfff<br>
-            *rrrrr <br>
+            <div class="list-group section">
+                <a href="/profile/questions" th:class="${section == 'questions'} ? 'active list-group-item' :'list-group-item' ">我的问题</a>
+                <a href="/profile/replies" th:class="${section == 'replies'} ? 'active list-group-item' :'list-group-item' "><span class="badge">14</span>最新回复</a>
+                <a href="#" class="list-group-item">Morbi leo risus</a>
+                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                <a href="#" class="list-group-item">Vestibulum at eros</a>
+            </div>
         </div>
     </div>
 </div>
