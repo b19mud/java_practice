@@ -27,10 +27,12 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}">杭州电子科技大学</h4>
+                    <h4 class="media-heading"><a th:text="${question.title}" th:href="@{'/question/'+ ${question.id}}"></a></h4>
                     <span th:text="${question.description}"></span> <br>
-                    <span class="text"><span th:text="${question.Comment_Count}"></span>个回复/ <span th:text="${question.View_Count}"></span>次浏览/ <span th:text="${#dates.format(question.getGmt_Create(),'yyyy-MM-dd HH:mm')}"></span>
-
+                    <span class="text"><span th:text="${question.Comment_Count}"></span>个回复/
+                        <span th:text="${question.View_Count}"></span>次浏览/
+                        <span th:text="${#dates.format(question.getGmt_Create(),'yyyy-MM-dd HH:mm')}"></span>
+                    </span>
                 </div>
             </div>
             <nav aria-label="Page navigation">

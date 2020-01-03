@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -30,4 +29,8 @@ public interface QuestionMapper {
 
     @Select("SELECT COUNT(1) FROM QUESTION WHERE CREATER = #{userId}")
     Integer countByUserId(@Param("userId") Integer userId);
+
+
+    @Select("SELECT * FROM QUESTION  WHERE ID = #{id}")
+    Question getById(@Param("id") Integer id);
 }
