@@ -11,7 +11,6 @@ import java.util.List;
 public class PageDTO {
 
     private List<QuestionDTO> questions;
-
     private boolean showFirstPage;
     private boolean showEndPage;
     private boolean showPrePage;
@@ -21,22 +20,8 @@ public class PageDTO {
     private List<Integer> pages = new ArrayList<>();
 
 
-    public void setPages(Integer totalCount, Integer page, Integer size) {
-
-        if(totalCount%size == 0)
-        {
-            totalPage = totalCount/size;
-        }else{
-            totalPage = totalCount/size + 1;
-        }
-
-        if(page<1){
-            page = 1;
-        }
-        if(page>totalPage)
-        {
-            page = totalPage;
-        }
+    public void setPages(Integer totalPage, Integer page) {
+        this.totalPage = totalPage;
         this.currentPage = page;
 
         pages.add(page);

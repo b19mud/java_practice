@@ -25,15 +25,24 @@ public class QuestionService {
 
     public PageDTO list(Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
+        Integer totalPage;
         Integer totalCount = questionMapper.count();
-        pageDTO.setPages(totalCount,page,size);
+
+        if(totalCount%size == 0)
+        {
+            totalPage = totalCount/size;
+        }else{
+            totalPage = totalCount/size + 1;
+        }
 
         if(page<1){
             page =1;
         }
-        if (page> pageDTO.getTotalPage()){
-            page = pageDTO.getTotalPage();
+        if (page> totalPage){
+            page = totalPage;
         }
+
+        pageDTO.setPages(totalPage,page);
 
         Integer offset = size * (page-1);
 
@@ -57,19 +66,28 @@ public class QuestionService {
 
     public PageDTO list(Integer userId, Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
-        Integer totalCount = questionMapper.count();
-        pageDTO.setPages(totalCount,page,size);
+
+        Integer totalPage;
+        Integer totalCount = questionMapper.countByUserId(userId);
+
+        if(totalCount%size == 0)
+        {
+            totalPage = totalCount/size;
+        }else{
+            totalPage = totalCount/size + 1;
+        }
 
         if(page<1){
             page =1;
         }
-        if (page> pageDTO.getTotalPage()){
-            page = pageDTO.getTotalPage();
+        if (page> totalPage){
+            page = totalPage;
         }
+        pageDTO.setPages(totalPage,page);
 
         Integer offset = size * (page-1);
 
-        List<Question> questions = questionMapper.list(userId,offset,size);
+        List<Question> questions = questionMapper.listByUserId(userId,offset,size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for(Question question:questions){

@@ -4,6 +4,7 @@ package com.bbs.bigmud.bbs.Controller;
 import com.bbs.bigmud.bbs.Model.User;
 import com.bbs.bigmud.bbs.Service.QuestionService;
 import com.bbs.bigmud.bbs.UserMapper.UserMapper;
+import com.bbs.bigmud.bbs.dto.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,8 +58,9 @@ public class ProfileController {
             model.addAttribute("sectionName","最新回复");
         }
 
-        questionService.list(user.getId(),page,size);
+        PageDTO pageDTO = questionService.list(user.getId(),page,size);
 
+        model.addAttribute("pagination",pageDTO);
         return "profile";
     }
 
