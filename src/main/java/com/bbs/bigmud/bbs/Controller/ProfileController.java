@@ -3,7 +3,6 @@ package com.bbs.bigmud.bbs.Controller;
 
 import com.bbs.bigmud.bbs.Model.User;
 import com.bbs.bigmud.bbs.Service.QuestionService;
-import com.bbs.bigmud.bbs.UserMapper.UserMapper;
 import com.bbs.bigmud.bbs.dto.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,15 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
 
 @Controller
 public class ProfileController {
-
-    @Autowired
-    UserMapper userMapper;
 
     @Autowired
     QuestionService questionService;
@@ -32,19 +26,7 @@ public class ProfileController {
                           @RequestParam(name="page",defaultValue = "1") Integer page,
                           @RequestParam(name="size",defaultValue = "5") Integer size){
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user != null)
-                        request.getSession().setAttribute("user", user);
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
 
         if(user == null)
             return "redirect:/";
