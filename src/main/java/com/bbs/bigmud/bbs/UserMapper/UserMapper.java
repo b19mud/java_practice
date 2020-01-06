@@ -2,10 +2,8 @@ package com.bbs.bigmud.bbs.UserMapper;
 
 
 import com.bbs.bigmud.bbs.Model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 @Mapper
 public interface UserMapper {
@@ -15,8 +13,15 @@ public interface UserMapper {
     void insert(User user);
 
     @Select("select * from user where token = #{token}")
-    User findByToken(String token);
+    User findByToken(@Param("token") String token);
 
-    @Select("select * from user where id = #{id}")
-    User findByID(Integer creater);
+    @Select("select * from user where id = #{creater}")
+    User findByID(@Param("creater") Integer creater);
+
+    @Select("select * from user where account_id = #{account_id}")
+    User findByAccountId(@Param("account_id") String account_id);
+
+    @Update("update user set name=#{name},token=#{token},GMT_MODIFIED=#{gmt_Modified},AVATAR_URL=#{avatar_Url}")
+    void update(User user);
+
 }

@@ -1,6 +1,7 @@
 package com.bbs.bigmud.bbs.Controller;
 
 import com.bbs.bigmud.bbs.Model.User;
+import com.bbs.bigmud.bbs.Service.UserService;
 import com.bbs.bigmud.bbs.UserMapper.UserMapper;
 import com.bbs.bigmud.bbs.dto.AccessTokenDTO;
 import com.bbs.bigmud.bbs.dto.GithubUser;
@@ -25,8 +26,9 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
 
+
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -59,10 +61,9 @@ public class AuthorizeController {
 
             user.setName(githubUser.getName());
             user.setAccount_id(String.valueOf(githubUser.getId()));
-            user.setGmt_Create(System.currentTimeMillis());
-            user.setGmt_Modified(user.getGmt_Create());
             user.setAvatar_Url(githubUser.getAvatar_Url());
-            userMapper.insert(user);
+
+            userService.createOrUpdate(user);
 
             response.addCookie(new Cookie("token",token));
             //sucess
@@ -78,5 +79,16 @@ public class AuthorizeController {
         //token 验证
 
 
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }
