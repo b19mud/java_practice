@@ -3,8 +3,11 @@ package com.bbs.bigmud.bbs.Service;
 
 import com.bbs.bigmud.bbs.Model.User;
 import com.bbs.bigmud.bbs.Mapper.UserMapper;
+import com.bbs.bigmud.bbs.Model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -15,20 +18,31 @@ public class UserService {
 
     public void createOrUpdate(User user) {
 
-        User dbUser = userMapper.findByAccountId(user.getAccount_id());
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andAccountIdEqualTo(user.getAccountId());
+        List<User> users = userMapper.selectByExample(userExample);
 
-        if (dbUser == null) {
+
+        if (users.size() == 0) {
             //insert
-            user.setGmt_Create(System.currentTimeMillis());
-            user.setGmt_Modified(user.getGmt_Create());
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
         }else{
             //update
-            dbUser.setGmt_Modified(System.currentTimeMillis());
-            dbUser.setAvatar_Url(user.getAvatar_Url());
-            dbUser.setName(user.getName());
-            dbUser.setToken(user.getToken());
-            userMapper.update(dbUser);
+            User dbUser = users.get(0);
+            User updateUser = new User();
+            updateUser.setGmtModified(System.currentTimeMillis());
+            updateUser.setAvatarUrl(user.getAvatarUrl());
+            updateUser.setName(user.getName());
+            updateUser.setToken(user.getToken());
+
+            UserExample example = new UserExample();
+            example.createCriteria().andIdEqualTo(dbUser.getId());
+            userMapper.updateByExampleSelective(updateUser,example);
+
+
         }
 
     }
