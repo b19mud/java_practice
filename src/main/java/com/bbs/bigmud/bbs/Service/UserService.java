@@ -2,7 +2,7 @@ package com.bbs.bigmud.bbs.Service;
 
 
 import com.bbs.bigmud.bbs.Model.User;
-import com.bbs.bigmud.bbs.UserMapper.UserMapper;
+import com.bbs.bigmud.bbs.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

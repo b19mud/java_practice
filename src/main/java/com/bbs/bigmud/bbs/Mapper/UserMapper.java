@@ -1,9 +1,8 @@
-package com.bbs.bigmud.bbs.UserMapper;
+package com.bbs.bigmud.bbs.Mapper;
 
 
 import com.bbs.bigmud.bbs.Model.User;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Service;
 
 @Mapper
 public interface UserMapper {

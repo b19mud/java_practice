@@ -1,11 +1,8 @@
-package com.bbs.bigmud.bbs.UserMapper;
+package com.bbs.bigmud.bbs.Mapper;
 
 
 import com.bbs.bigmud.bbs.Model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -33,4 +30,7 @@ public interface QuestionMapper {
 
     @Select("SELECT * FROM QUESTION  WHERE ID = #{id}")
     Question getById(@Param("id") Integer id);
+
+    @Update("update question set TITLE=#{title},DESCRIPTION=#{description},GMT_MODIFIED=#{gmt_Modified},TAG=#{tag} where id=#{id}")
+    void update(Question question);
 }

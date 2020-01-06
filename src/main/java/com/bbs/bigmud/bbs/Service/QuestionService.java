@@ -3,8 +3,8 @@ package com.bbs.bigmud.bbs.Service;
 
 import com.bbs.bigmud.bbs.Model.Question;
 import com.bbs.bigmud.bbs.Model.User;
-import com.bbs.bigmud.bbs.UserMapper.QuestionMapper;
-import com.bbs.bigmud.bbs.UserMapper.UserMapper;
+import com.bbs.bigmud.bbs.Mapper.QuestionMapper;
+import com.bbs.bigmud.bbs.Mapper.UserMapper;
 import com.bbs.bigmud.bbs.dto.PageDTO;
 import com.bbs.bigmud.bbs.dto.QuestionDTO;
 import org.springframework.beans.BeanUtils;
@@ -113,5 +113,18 @@ public class QuestionService {
         User user = userMapper.findByID(question.getCreater());
         questionDTO.setUser(user);
         return questionDTO;
+    }
+
+    public void createOrUpdate(Question question) {
+
+        if(question.getId() == null){
+
+            question.setGmt_Create(System.currentTimeMillis());
+            question.setGmt_Modified(question.getGmt_Create());
+            questionMapper.createQuestion(question);
+        }else{
+            question.setGmt_Modified(question.getGmt_Create());
+            questionMapper.update(question);
+        }
     }
 }

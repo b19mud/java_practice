@@ -2,7 +2,6 @@ package com.bbs.bigmud.bbs.Controller;
 
 import com.bbs.bigmud.bbs.Model.User;
 import com.bbs.bigmud.bbs.Service.UserService;
-import com.bbs.bigmud.bbs.UserMapper.UserMapper;
 import com.bbs.bigmud.bbs.dto.AccessTokenDTO;
 import com.bbs.bigmud.bbs.dto.GithubUser;
 import com.bbs.bigmud.bbs.provider.GithubProvider;
