@@ -1,6 +1,8 @@
 package com.bbs.bigmud.bbs.Service;
 
 
+import com.bbs.bigmud.bbs.Exception.CustomizeErrorCode;
+import com.bbs.bigmud.bbs.Exception.CustomizeException;
 import com.bbs.bigmud.bbs.Model.Question;
 import com.bbs.bigmud.bbs.Model.QuestionExample;
 import com.bbs.bigmud.bbs.Model.User;
@@ -119,6 +121,9 @@ public class QuestionService {
     public QuestionDTO getById(Integer id) {
 
         Question question = questionMapper.selectByPrimaryKey(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreater());
@@ -142,7 +147,11 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int update = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if(update != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+
     }
 }
