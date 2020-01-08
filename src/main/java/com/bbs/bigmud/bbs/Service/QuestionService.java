@@ -3,6 +3,7 @@ package com.bbs.bigmud.bbs.Service;
 
 import com.bbs.bigmud.bbs.Exception.CustomizeErrorCode;
 import com.bbs.bigmud.bbs.Exception.CustomizeException;
+import com.bbs.bigmud.bbs.Mapper.QuestionExtMapper;
 import com.bbs.bigmud.bbs.Model.Question;
 import com.bbs.bigmud.bbs.Model.QuestionExample;
 import com.bbs.bigmud.bbs.Model.User;
@@ -22,10 +23,13 @@ import java.util.List;
 public class QuestionService {
 
     @Autowired
-    QuestionMapper questionMapper;
+    private QuestionExtMapper questionExtMapper;
 
     @Autowired
-    UserMapper userMapper;
+    private QuestionMapper questionMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public PageDTO list(Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
@@ -152,6 +156,16 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+
+    }
+
+    public void incView(Integer id) {
+
+
+        Question record = new Question();
+        record.setId(id);
+        record.setViewCount(1);
+        questionExtMapper.incView(record);
 
     }
 }
