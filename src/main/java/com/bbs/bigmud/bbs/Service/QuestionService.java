@@ -73,7 +73,7 @@ public class QuestionService {
 
     }
 
-    public PageDTO list(Integer userId, Integer page, Integer size) {
+    public PageDTO list(Long userId, Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
 
         Integer totalPage;
@@ -122,7 +122,7 @@ public class QuestionService {
 
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
 
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question == null){
@@ -141,6 +141,9 @@ public class QuestionService {
 
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setLikeCount(0);
             questionMapper.insert(question);
         }else{
             Question updateQuestion = new Question();
@@ -159,7 +162,7 @@ public class QuestionService {
 
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
 
 
         Question record = new Question();

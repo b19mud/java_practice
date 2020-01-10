@@ -23,4 +23,10 @@
         VIEW_COUNT = VIEW_COUNT + #{View_Count,jdbcType=INTEGER}
         where id = #{id}
     </update>
+    <update id="incCommentCount" parameterType="com.bbs.bigmud.bbs.Model.Question">
+        update QUESTION
+        set
+        COMMENT_COUNT = COMMENT_COUNT + #{comment_Count,jdbcType=INTEGER}
+        where id = #{id}
+    </update>
 </mapper>
