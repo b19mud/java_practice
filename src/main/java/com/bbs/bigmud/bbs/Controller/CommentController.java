@@ -6,15 +6,13 @@ import com.bbs.bigmud.bbs.Mapper.CommentMapper;
 import com.bbs.bigmud.bbs.Model.Comment;
 import com.bbs.bigmud.bbs.Model.User;
 import com.bbs.bigmud.bbs.Service.CommentService;
-import com.bbs.bigmud.bbs.dto.CommentDTO;
+import com.bbs.bigmud.bbs.dto.CommentCreateDTO;
 import com.bbs.bigmud.bbs.dto.ResultDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Controller
@@ -28,7 +26,7 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentDTO,
                        HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
 
