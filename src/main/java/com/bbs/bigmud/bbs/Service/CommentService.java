@@ -3,10 +3,7 @@ package com.bbs.bigmud.bbs.Service;
 
 import com.bbs.bigmud.bbs.Exception.CustomizeErrorCode;
 import com.bbs.bigmud.bbs.Exception.CustomizeException;
-import com.bbs.bigmud.bbs.Mapper.CommentMapper;
-import com.bbs.bigmud.bbs.Mapper.QuestionExtMapper;
-import com.bbs.bigmud.bbs.Mapper.QuestionMapper;
-import com.bbs.bigmud.bbs.Mapper.UserMapper;
+import com.bbs.bigmud.bbs.Mapper.*;
 import com.bbs.bigmud.bbs.Model.*;
 import com.bbs.bigmud.bbs.dto.CommentDTO;
 import com.bbs.bigmud.bbs.enums.CommentTypeEnum;
@@ -19,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +33,9 @@ public class CommentService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CommentExtMapper commentExtMapper;
 
     @Transactional
     public void insert(Comment comment) {
@@ -58,6 +57,11 @@ public class CommentService {
             }
 
             commentMapper.insert(comment);
+
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            comment.setCommentContent(1);
+            commentExtMapper.incCommentCount(comment);
         }else{
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
             if(question == null){
@@ -73,12 +77,12 @@ public class CommentService {
 
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
 
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
 
         commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments =  commentMapper.selectByExample(commentExample);

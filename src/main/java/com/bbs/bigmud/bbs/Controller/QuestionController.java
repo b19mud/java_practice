@@ -3,9 +3,9 @@ package com.bbs.bigmud.bbs.Controller;
 
 import com.bbs.bigmud.bbs.Service.CommentService;
 import com.bbs.bigmud.bbs.Service.QuestionService;
-import com.bbs.bigmud.bbs.dto.CommentCreateDTO;
 import com.bbs.bigmud.bbs.dto.CommentDTO;
 import com.bbs.bigmud.bbs.dto.QuestionDTO;
+import com.bbs.bigmud.bbs.enums.CommentTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ public class QuestionController {
 
         QuestionDTO questionDTO = questionService.getById(id);
 
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION.getType());
         //累加阅读数
 
 
