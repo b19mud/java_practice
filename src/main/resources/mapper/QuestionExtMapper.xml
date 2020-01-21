@@ -29,4 +29,7 @@
         COMMENT_COUNT = COMMENT_COUNT + #{comment_Count,jdbcType=INTEGER}
         where id = #{id}
     </update>
+    <select id="selectRelated" parameterType="com.bbs.bigmud.bbs.Model.Question" resultMap="ResultMapWithBLOBs">
+        select * from QUESTION where id != #{id} and  tag regexp #{tag}
+    </select>
 </mapper>

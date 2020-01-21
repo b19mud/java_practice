@@ -15,9 +15,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -53,7 +56,8 @@ public class QuestionService {
         pageDTO.setPages(totalPage,page);
 
         Integer offset = size * (page-1);
-
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(),new RowBounds(offset,size));
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -170,5 +174,27 @@ public class QuestionService {
         record.setViewCount(1);
         questionExtMapper.incView(record);
 
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO) {
+        if(StringUtils.isEmpty(questionDTO.getTag())){
+            return new ArrayList<>();
+        }
+
+        String tags = StringUtils.replace(questionDTO.getTag(),",","|");
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(tags);
+
+
+        List<Question> questions =  questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS =
+        questions.stream().map(q->{
+            QuestionDTO questionDTO1 = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO1);
+            return questionDTO1;}).collect(Collectors.toList());
+
+
+        return questionDTOS;
     }
 }
