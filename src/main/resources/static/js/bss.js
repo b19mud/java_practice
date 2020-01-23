@@ -9,8 +9,6 @@ function post(){
         alert("评论不能为空");
         return;
     }
-
-
     $.ajax({
         type:"POST",
         url:"/comment",
@@ -49,4 +47,26 @@ function post(){
 function collapseComments(){
     var data = $.data(this,"id");
     console.log(data);
+}
+
+/**
+* 选定标签添加内容
+ */
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if(previous.indexOf(value) == -1){
+        if(previous){
+            $("#tag").val(previous+','+value);
+        }else{
+            $("#tag").val(value);
+        }
+    }
+}
+
+/**
+ * 展示标签选择页
+ */
+function showSelectTag() {
+
 }
